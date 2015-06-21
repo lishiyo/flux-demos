@@ -1,0 +1,41 @@
+{
+  "name": "react-boilerplate",
+  "version": "0.2.0",
+  "description": "Quick packager-agnostic boilerplate for React modules using JSX",
+  "main": "lib/index.js",
+  "dependencies": {
+    "react": "~0.8",
+    "statics-stylesheets": "~0.0.1",
+    "stylesheets": "~0.0.3",
+    "body-parser": "^1.4.3",
+    "express": "^4.4.5"
+  },
+  "devDependencies": {
+    "babel": "^5.6.1",
+    "babelify": "^6.1.2",
+    "browser-sync": "^2.7.10",
+    "browserify": "^10.2.4",
+    "gulp": "^3.9.0",
+    "gulp-babel": "^5.1.0",
+    "gulp-html-replace": "^1.5.0",
+    "gulp-streamify": "0.0.5",
+    "gulp-uglify": "^1.1.0",
+    "jsxc": "~0.1.6",
+    "reactify": "^1.1.1",
+    "vinyl-source-stream": "^1.1.0",
+    "watchify": "^3.2.2"
+  },
+  "scripts": {
+    "start": "jsxc --watch src/ lib/",
+    "build": "jsxc src/ lib/"
+  },
+  "files": [
+    "lib/",
+    "USAGE.txt",
+    "static/"
+  ],
+  "staticRoot": "./static/",
+  "staticPlugin": "statics-stylesheets",
+  "author": "Pete Hunt",
+  "license": "Apache 2"
+}
