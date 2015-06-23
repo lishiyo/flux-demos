@@ -9,8 +9,10 @@
  * TodoActions
  */
 
-let AppDispatcher = require('../dispatcher/AppDispatcher');
+let AD = require('../dispatcher/app.dispatcher');
 let TodoConstants = require('../constants/TodoConstants');
+
+let AppDispatcher = new AD();
 
 let TodoActions = {
 

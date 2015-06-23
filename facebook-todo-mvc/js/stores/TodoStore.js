@@ -1,8 +1,9 @@
-let AppDispatcher = require('../dispatcher/AppDispatcher');
+let AD = require('../dispatcher/app.dispatcher');
 let EventEmitter = require('events').EventEmitter;
 let TodoConstants = require('../constants/TodoConstants');
 
 let CHANGE_EVENT = 'change';
+let AppDispatcher = new AD();
 
 let _todos = {};
 
@@ -39,7 +40,7 @@ function update(id, updates) {
  */
 
 function updateAll(updates) {
-    // for...in loops over keys, for...of loops over values
+    // for...in loops over keys, for...of loops over values (use for arrays)
     for (let id in _todos) {
         update(id, updates);
     }
@@ -65,7 +66,7 @@ function destroyCompleted() {
   }
 }
 
-class TodoStore extends EventEmitter {
+var TodoStore = Object.assign({}, EventEmitter.prototype, {
     /**
    * Tests whether all the remaining TODO items are marked as completed.
    * @return {boolean}
@@ -87,6 +88,7 @@ class TodoStore extends EventEmitter {
     return _todos;
   },
 
+  /** @return {boolean} - true if event had listeners, false others */
   emitChange() {
     this.emit(CHANGE_EVENT);
   },
@@ -103,32 +105,41 @@ class TodoStore extends EventEmitter {
    */
   removeChangeListener(callback) {
     this.removeListener(CHANGE_EVENT, callback);
-  },
+  }
 
-  dispatcherIndex: AppDispatcher.register(function(payload) {
-    var action = payload.action;
-    var text;
+});
+
+TodoStore.dispatcherIndex = AppDispatcher.register(function(payload) {
+    let action = payload.action;
+    let text;
 
     switch(action.actionType) {
-      case TodoConstants.TODO_CREATE:
-        text = action.text.trim();
-        if (text !== '') {
-          create(text);
-          TodoStore.emitChange();
-        }
-        break;
+        case TodoConstants.TODO_CREATE:
+            text = action.text.trim();
+            if (text !== '') {
+              create(text);
+              TodoStore.emitChange();
+            }
+            break;
 
-      case TodoConstants.TODO_DESTROY:
-        destroy(action.id);
-        TodoStore.emitChange();
-        break;
+        case TodoConstants.TODO_DESTROY:
+            destroy(action.id);
+            TodoStore.emitChange();
+            break;
+
+        case TodoConstants.TODO_UPDATE_TEXT:
+            if (action.text) {
+                text = action.text.trim();
+                update(action.id, text);
+                TodoStore.emitChange();
+            }
+            break;
 
       // add more cases for other actionTypes, like TODO_UPDATE, etc.
     }
 
     return true; // No errors. Needed by promise in Dispatcher.
-  })
-}
+  });
 
 // AppDispatcher.register(function(action) {
 //     let text;

@@ -4,11 +4,13 @@
   "description": "Quick packager-agnostic boilerplate for React modules using JSX",
   "main": "lib/index.js",
   "dependencies": {
+    "babel-core": "^5.6.4",
+    "body-parser": "^1.4.3",
+    "core-js": "^0.9.18",
+    "express": "^4.4.5",
     "react": "~0.8",
     "statics-stylesheets": "~0.0.1",
-    "stylesheets": "~0.0.3",
-    "body-parser": "^1.4.3",
-    "express": "^4.4.5"
+    "stylesheets": "~0.0.3"
   },
   "devDependencies": {
     "babel": "^5.6.1",
@@ -21,6 +23,8 @@
     "gulp-streamify": "0.0.5",
     "gulp-uglify": "^1.1.0",
     "jsxc": "~0.1.6",
+    "keymirror": "^0.1.1",
+    "react": "^0.13.3",
     "reactify": "^1.1.1",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.2.2"

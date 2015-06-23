@@ -5,11 +5,8 @@
 let _callbacks = [];
 let _promises = [];
 
-class Dispatcher extends Object {
-    constructor() {
-        console.log("create dispatcher", this);
-    },
-    /**
+class Dispatcher {
+/**
    * Register a Store's callback so that it may be invoked by an action.
    * @param {function} callback The callback to be registered.
    * @return {number} The index of the callback within the _callbacks array.
@@ -17,7 +14,7 @@ class Dispatcher extends Object {
   register(callback) {
     _callbacks.push(callback);
     return _callbacks.length - 1;
-  },
+  }
   /**
    * dispatch
    * @param  {object} payload The data from the action { source, action }

@@ -1,4 +1,11 @@
 // polyfill promises
-require("babel/register")({
-    extensions: [".jsx", ".js"]
-});
+import React from 'react';
+import "babel-core/polyfill";
+
+
+import TodoApp from './components/TodoApp.react';
+
+React.render(
+  <TodoApp />,
+  document.getElementById('todoapp')
+);
