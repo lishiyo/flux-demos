@@ -26,7 +26,7 @@ class Dispatcher {
     let rejects = [];
     _promises = _callbacks.map((_, i) => {
         return new Promise(function(resolve, reject) {
-            console.log("++ dispatch promise: ", payload, resolve, reject);
+            console.log("++ dispatch new Promise: ", payload, resolve, reject);
             resolves[i] = resolve;
             rejects[i] = reject;
         });
@@ -35,6 +35,7 @@ class Dispatcher {
     _callbacks.forEach((callback, idx) => {
         // Callback can return an object to resolve or a promise to chain
         Promise.resolve(callback(payload)).then(function() {
+            console.log("dispatcher _resolves[idx](payload)", resolves[idx](payload));
             resolves[idx](payload);
         }, function() {
             rejects[idx](new Error('dispatcher callback failed'));

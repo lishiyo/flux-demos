@@ -30,13 +30,13 @@ class TodoItem extends React.Component {
 		TodoActions.updateText(this.props.todo.id, text);
 		this._toggleEditing();
 	}
+	_onDestroy() {
+		TodoActions.destroy(this.props.todo.id);
+	}
 	_toggleEditing() {
 		this.setState({
 			isEditing: !this.state.isEditing
 		});
-	}
-	_onDestroy() {
-		TodoActions.destroy(this.props.todo.id);
 	}
     render() {
     	var input;
@@ -74,7 +74,6 @@ class TodoItem extends React.Component {
 	    			onClick={this._onDestroy.bind(this)} 
 	    		/>
 	    	</div>
-
         	{input}
         	</li>
         );
