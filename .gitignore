@@ -1,1 +1,2 @@
-./facebook-todo-mvc/node_modules
+**/**/node_modules/
+node_modules/
