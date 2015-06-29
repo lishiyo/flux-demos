@@ -4,10 +4,8 @@ import TodoActions from '../actions/TodoActions';
 
 class Header extends React.Component {
     _onSave(text) { // pass in text from TodoTextInput
-        text = text.trim();
-        if (text.length) {
+        if (text.trim()) {
             TodoActions.create(text);
-            debugger;
         }
     }
     render() {

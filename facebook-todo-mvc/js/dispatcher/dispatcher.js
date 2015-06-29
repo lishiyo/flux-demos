@@ -17,13 +17,16 @@ class Dispatcher {
   }
   /**
    * dispatch
-   * @param  {object} payload The data from the action { source, action }
+   * @param  {object} payload The data from the action 
+   * { source: 'VIEW_ACTION', action: { actionType, text }  }
+   * TodoStore logic => emitChange => eventListener callbacks => todoApp._onChange();
    */
   dispatch(payload) {
     let resolves = [];
     let rejects = [];
     _promises = _callbacks.map((_, i) => {
         return new Promise(function(resolve, reject) {
+            console.log("++ dispatch promise: ", payload, resolve, reject);
             resolves[i] = resolve;
             rejects[i] = reject;
         });
@@ -32,11 +35,12 @@ class Dispatcher {
     _callbacks.forEach((callback, idx) => {
         // Callback can return an object to resolve or a promise to chain
         Promise.resolve(callback(payload)).then(function() {
-            resolves[i](payload);
+            resolves[idx](payload);
         }, function() {
-            rejects[i](new Error('dispatcher callback failed'));
+            rejects[idx](new Error('dispatcher callback failed'));
         });
     });
+
     _promises = [];
   }
 }

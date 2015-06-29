@@ -1,30 +1,35 @@
 import React from 'react';
 
+/**
+* Attaches TodoStore ChangeListeners => setState(currentState)
+* 
+*/
+
 let TodoStore = require('../stores/TodoStore');
 let Header = require('./Header.react');
 let MainSection = require('./MainSection.react');
 let Footer = require('./Footer.react');
 
-function getTodoState() {
-    return {
-        allTodos: TodoStore.getAll(),
-        areAllComplete: TodoStore.areAllComplete()
-    };
-}
-
 class TodoApp extends React.Component {
     constructor(props) {
         super(null);
-        this.state = getTodoState();
+        this.state = this.getTodoState();
     }
     componentDidMount() {
-        TodoStore.addChangeListener(this._onChange);
+        TodoStore.addChangeListener(this._onChange.bind(this));
     }
     componentWillUnmount() {
-        TodoStore.removeChangeListener(this._onChange);
+        TodoStore.removeChangeListener(this._onChange.bind(this));
     }
     _onChange() {
-        this.setState(getTodoState());
+        this.setState(this.getTodoState());
+        console.log("app onChange+++", this.state);
+    }
+    getTodoState() {
+        return {
+            allTodos: TodoStore.getAll(),
+            areAllComplete: TodoStore.areAllComplete()
+        };
     }
     render() {
         return (

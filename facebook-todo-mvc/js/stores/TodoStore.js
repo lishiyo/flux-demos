@@ -1,10 +1,8 @@
-let AD = require('../dispatcher/app.dispatcher');
+let AppDispatcher = require('../dispatcher/app.dispatcher');
 let EventEmitter = require('events').EventEmitter;
 let TodoConstants = require('../constants/TodoConstants');
 
 let CHANGE_EVENT = 'change';
-let AppDispatcher = new AD();
-
 let _todos = {};
 
 /**
@@ -66,12 +64,14 @@ function destroyCompleted() {
   }
 }
 
-var TodoStore = Object.assign({}, EventEmitter.prototype, {
+// Attach static functions
+
+let TodoStore = Object.assign({}, EventEmitter.prototype, {
     /**
    * Tests whether all the remaining TODO items are marked as completed.
    * @return {boolean}
    */
-  areAllComplete() {
+  areAllComplete: function() {
     for (var id in _todos) {
       if (!_todos[id].complete) {
         return false;
@@ -84,115 +84,98 @@ var TodoStore = Object.assign({}, EventEmitter.prototype, {
    * Get the entire collection of TODOs.
    * @return {object}
    */
-  getAll() {
+  getAll: function() {
     return _todos;
   },
 
   /** @return {boolean} - true if event had listeners, false others */
-  emitChange() {
+  emitChange: function() {
     this.emit(CHANGE_EVENT);
   },
 
   /**
    * @param {function} callback
    */
-  addChangeListener(callback) {
+  addChangeListener: function(callback) {
     this.on(CHANGE_EVENT, callback);
   },
 
   /**
    * @param {function} callback
    */
-  removeChangeListener(callback) {
+  removeChangeListener: function(callback) {
     this.removeListener(CHANGE_EVENT, callback);
-  }
+  },
 
 });
 
-TodoStore.dispatcherIndex = AppDispatcher.register(function(payload) {
-    let action = payload.action;
+/**
+ * Call AppDispatcher.register(callback) immediately -> [callback]
+ * @param payload = 
+  { source: 'VIEW_ACTION',
+      action: {
+        actionType: TODO_CREATE,
+        text: "some text"
+      }
+    }
+  Actual create/destroy logic lives here. 
+  emitChange => triggers listener callbacks
+**/
+
+AppDispatcher.register(function(action) {
     let text;
+    console.log("TodoStore register ++", action);
 
     switch(action.actionType) {
-        case TodoConstants.TODO_CREATE:
-            text = action.text.trim();
-            if (text !== '') {
-              create(text);
-              TodoStore.emitChange();
-            }
-            break;
+      case TodoConstants.TODO_CREATE:
+        if (action.text) {
+          text = action.text.trim();
+          create(text);
+          TodoStore.emitChange();
+        }
+        break;
 
-        case TodoConstants.TODO_DESTROY:
-            destroy(action.id);
-            TodoStore.emitChange();
-            break;
+      case TodoConstants.TODO_DESTROY:
+        destroy(action.id);
+        TodoStore.emitChange();
+        break;
 
-        case TodoConstants.TODO_UPDATE_TEXT:
-            if (action.text) {
-                text = action.text.trim();
-                update(action.id, text);
-                TodoStore.emitChange();
-            }
-            break;
+      case TodoConstants.TODO_UPDATE_TEXT:
+        if (action.text) {
+          text = action.text.trim();
+          update(action.id, { text: text});
+          TodoStore.emitChange();
+        }
+        break;
 
-      // add more cases for other actionTypes, like TODO_UPDATE, etc.
+      case TodoConstants.TODO_COMPLETE:
+        update(action.id, { complete: true });
+        TodoStore.emitChange();
+        break;
+
+      case TodoConstants.TODO_UNDO_COMPLETE:
+        update(action.id, { complete: false });
+        TodoStore.emitChange();
+        break;
+
+      case TodoConstants.TODO_TOGGLE_COMPLETE_ALL:
+        if (TodoStore.areAllComplete()) {
+          updateAll({complete: false});
+        } else {
+          updateAll({complete: true});
+        }
+        TodoStore.emitChange();
+        break;
+
+      case TodoConstants.TODO_DESTROY_COMPLETED:
+        destroyCompleted();
+        TodoStore.emitChange();
+        break;
+
+      default:
     }
 
     return true; // No errors. Needed by promise in Dispatcher.
-  });
-
-// AppDispatcher.register(function(action) {
-//     let text;
-
-//     switch(action.actionType) {
-//     case TodoConstants.TODO_CREATE:
-//       text = action.text.trim();
-//       if (text !== '') {
-//         create(text);
-//         TodoStore.emitChange();
-//       }
-//       break;
-
-//     case TodoConstants.TODO_TOGGLE_COMPLETE_ALL:
-//       if (TodoStore.areAllComplete()) {
-//         updateAll({complete: false});
-//       } else {
-//         updateAll({complete: true});
-//       }
-//       TodoStore.emitChange();
-//       break;
-
-//     case TodoConstants.TODO_UNDO_COMPLETE:
-//       update(action.id, {complete: false});
-//       TodoStore.emitChange();
-//       break;
-
-//     case TodoConstants.TODO_COMPLETE:
-//       update(action.id, {complete: true});
-//       TodoStore.emitChange();
-//       break;
-
-//     case TodoConstants.TODO_UPDATE_TEXT:
-//       text = action.text.trim();
-//       if (text !== '') {
-//         update(action.id, {text: text});
-//         TodoStore.emitChange();
-//       }
-//       break;
-
-//     case TodoConstants.TODO_DESTROY:
-//       destroy(action.id);
-//       TodoStore.emitChange();
-//       break;
-
-//     case TodoConstants.TODO_DESTROY_COMPLETED:
-//       destroyCompleted();
-//       TodoStore.emitChange();
-//       break;
-
-//     default:
-//       // no op
-//   }
-// });
+});
 
 module.exports = TodoStore;
