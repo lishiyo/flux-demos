@@ -9,7 +9,7 @@
     "classnames": "^2.1.2",
     "core-js": "^0.9.18",
     "express": "^4.4.5",
-    "react": "^0.13",
+    "react": "^0.13.3",
     "statics-stylesheets": "~0.0.1",
     "stylesheets": "~0.0.3"
   },
@@ -25,7 +25,6 @@
     "gulp-uglify": "^1.1.0",
     "jsxc": "~0.1.6",
     "keymirror": "^0.1.1",
-    "react": "^0.13.3",
     "reactify": "^1.1.1",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.2.2"
