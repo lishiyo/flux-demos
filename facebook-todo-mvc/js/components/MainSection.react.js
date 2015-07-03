@@ -32,7 +32,7 @@ class MainSection extends React.Component {
         			id="toggle-all"
         			type="checkbox"
         			onChange={this._onToggleCompleteAll.bind(this)}
-        			checked={this.props.areAllComplete}
+        			checked={this.props.areAllComplete ? 'checked' : ''}
         		/>
 	            <label htmlFor="toggle-all">
 	            	Mark all as complete

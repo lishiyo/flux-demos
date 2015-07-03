@@ -5,7 +5,7 @@ class Home extends React.Component {
         return (
             <div>
                 <h2 className="text-center">
-                    Search by Github Username above
+                   Search by Github Username
                 </h2>
             </div>
         );

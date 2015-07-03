@@ -25,7 +25,8 @@ class Dispatcher {
     let resolves = [];
     let rejects = [];
     _promises = _callbacks.map((_, i) => {
-        return new Promise(function(resolve, reject) {
+      // Promise takes in a success callback, then error cb
+        return new Promise((resolve, reject) => {
             console.log("++ dispatch new Promise: ", payload, resolve, reject);
             resolves[i] = resolve;
             rejects[i] = reject;
