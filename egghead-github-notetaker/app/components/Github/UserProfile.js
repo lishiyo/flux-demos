@@ -18,6 +18,10 @@ class UserProfile extends React.Component {
     }
 }
 
+/*
+==== Class Methods ==== 
+*/
+
 // propTypes are class methods, not instance variables
 UserProfile.propTypes = {
     username: React.PropTypes.string.isRequired,

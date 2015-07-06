@@ -9,8 +9,15 @@ new WebpackDevServer(webpack(config), {
   contentBase: 'public/',
   inline: true,
   noInfo: true,
-  colors: true,
-  progress: true
+  stats: { colors: true, progress: true },
+
+  // Set this if you want webpack-dev-server to delegate a single path to an arbitrary server.
+  // Use "*" to proxy all paths to the specified server.
+  // This is useful if you want to get rid of 'http://localhost:8080/' in script[src],
+  // and has many other use cases (see https://github.com/webpack/webpack-dev-server/pull/127 ).
+  proxy: {
+    // "*": "http://localhost:8080"
+  }
 }).listen(8080, 'localhost', function (err, result) {
   if (err) {
     console.log(err);

@@ -1,18 +1,20 @@
 import React from 'react';
+import NotesList from './NotesList';
+import AddNote from './AddNote';
 
 class Notes extends React.Component {
     render() {
         return (
             <div>
-                <h2>Notes</h2>
+                <h2>Notes for {this.props.username}</h2>
                 <div className="container-fluid">
                     <div className="row">
-                        Name: {this.props.username}
-                    </div>
-                    <div className="row">
-                        Notes: {this.props.notes}
+                        Notes:
                     </div>
                 </div>
+                <AddNote username={this.props.username} 
+                        addNote={this.props.addNote} />
+                <NotesList notes={this.props.notes} />
             </div>
         );
     }
@@ -20,7 +22,8 @@ class Notes extends React.Component {
 
 Notes.propTypes = {
     username: React.PropTypes.string.isRequired,
-    notes: React.PropTypes.array.isRequired
+    notes: React.PropTypes.array.isRequired,
+    addNote: React.PropTypes.func.isRequired
 }
 
 export default Notes;
