@@ -4,9 +4,9 @@ import Router from 'react-router';
 const SearchGithub = React.createClass({
 	mixins: [Router.Navigation],
 	handleSubmit: function(){
-		let username = this.refs.username.getDOMNode().value;
+		const username = this.refs.username.getDOMNode().value;
 		this.refs.username.getDOMNode().value = '';
-		this.transitionTo('profile', {username: username});
+		this.transitionTo('profile', { username: username });
 	},
 	render() {
 		return (

@@ -4,6 +4,7 @@ import reactMixin from 'react-mixin';
 import ReactFireMixin from 'reactfire';
 import Firebase from 'firebase';
 import debug from 'debug';
+import helpers from '../utils/helpers';
 
 import { FIREBASE_BASE } from '../config/constants';
 import UserProfile from './Github/UserProfile';
@@ -15,20 +16,43 @@ var Profile = React.createClass({
     getInitialState: function() {
         return {
             bio: {
-                name: 'tyler'
+                
             },
-            repos: ['repo one', 'repo two'],
-            notes: ['first note', 'second note'],
+            repos: [],
+            notes: [],
         }
     },
     componentDidMount: function() {
         this.ref = new Firebase(FIREBASE_BASE);
-        const childRef = this.ref.child(this.getParams().username);
-        // when this component mounts, bind this.state.notes with /tyler
-        this.bindAsArray(childRef, 'notes'); //reactFireMixin adds methods
+
+        this.init();
     },
     componentWillUnmount: function() {
-        // this.unbind('notes');
+        this.unbind('notes');
+    },
+    componentWillReceiveProps: function() {
+        console.log("component receive props!");
+        // unbind notes database from this.state.notes
+        this.unbind('notes');
+
+        this.init();
+    },
+    init: function() {
+        const username = this.getParams().username;
+        const childRef = this.ref.child(username);
+
+        // when this component mounts, bind this.state.notes with /username
+        this.bindAsArray(childRef, 'notes'); //reactFireMixin method
+
+        // after setting up Firebase, invoke API call
+        helpers.getGithubInfo(username)
+            .then(dataObj => {
+                console.log("getGithubInfo", dataObj);
+                this.setState({
+                    repos: dataObj.repos,
+                    bio: dataObj.bio
+                });
+            });
     },
     handleAddNote: function(newNote) {
         this.ref.child(this.getParams().username).set(this.state.notes.concat([newNote]));
@@ -40,8 +64,8 @@ var Profile = React.createClass({
             <div className="row">
                 <div className="col-md-4">
                     <UserProfile 
-                    username={username} 
-                    bio={this.state.bio} />
+                        username={username} 
+                        bio={this.state.bio} />
                 </div>
                 <div className="col-md-4">
                     <Repos username={username} repos={this.state.repos}/>

@@ -13,6 +13,7 @@ class Main extends React.Component {
                     </div>
                 </nav>
                 <div className="container">
+                    { /* ...this.props passes in all props } */ }
                     <RouteHandler {...this.props}/>
                 </div>
             </div>

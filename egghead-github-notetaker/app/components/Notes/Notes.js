@@ -6,12 +6,8 @@ class Notes extends React.Component {
     render() {
         return (
             <div>
-                <h2>Notes for {this.props.username}</h2>
-                <div className="container-fluid">
-                    <div className="row">
-                        Notes:
-                    </div>
-                </div>
+                <h3>Notes for {this.props.username}</h3>
+                
                 <AddNote username={this.props.username} 
                         addNote={this.props.addNote} />
                 <NotesList notes={this.props.notes} />
