@@ -2,14 +2,18 @@ import React from 'react';
 import Main from '../components/Main';
 import Home from '../components/Home';
 import Profile from '../components/Profile';
+import FollowWidget from '../components/Widget/Follow';
 
-import { Router, Route, DefaultRoute } from 'react-router';
+import { Route, DefaultRoute } from 'react-router';
 
-module.exports = (
-    // Main will always show
-    <Route name="app" path="/" handler={Main} >
-        <Route name="profile" path="profile/:username" handler={Profile} />
-        // Swap out child view at RouteHandler
-        <DefaultRoute handler={Home} />
+export default (
+    // Main Component will always show
+    // Will swap out child view at RouteHandler
+    <Route name="app" path="/" handler={ Main } >
+
+    /** Routes **/
+        <Route name="profile" path="profile/:username" handler={ Profile } />
+        <Route name="followWidget" path="follow" handler={ FollowWidget } />
+        <DefaultRoute handler={ Home } />
     </Route>
 );

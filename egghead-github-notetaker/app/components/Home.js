@@ -3,7 +3,7 @@ import React from 'react';
 class Home extends React.Component {
 	constructor(props) {
 		super(props);
-		// debug('Home with ...this.props from Main', this.props);	
+		// debug('Home with ...this.props from Main', this.props);
 	}
     render() {
         return (

@@ -1,17 +1,17 @@
 import React from 'react';
-import Router from 'react-router';
+// import Router from 'react-router';
 
-const SearchGithub = React.createClass({
-	mixins: [Router.Navigation],
-	handleSubmit: function(){
+class SearchGithub extends React.Component {
+	handleSubmit() {
 		const username = this.refs.username.getDOMNode().value;
+		const router = this.context.router;
 		this.refs.username.getDOMNode().value = '';
-		this.transitionTo('profile', { username: username });
-	},
+		router.transitionTo('profile', { username: username });
+	}
 	render() {
 		return (
 			<div classsName="col-sm-12">
-				<form onSubmit={this.handleSubmit} >
+				<form onSubmit={this.handleSubmit.bind(this)} >
 					<div className="form-group col-sm-7">
 						<input type="text" ref="username" className="form-control" />
 					</div>
@@ -24,6 +24,14 @@ const SearchGithub = React.createClass({
 			</div>
 		);
 	}
-});
+}
+
+/**
+	ES6 doesn't have mixins. ReactRouter utilizies React contexts - pass some piece of functionalities (here a function) to all children.
+**/
+SearchGithub.contextTypes = {
+	// signal React that ReactRouter will pass in in router as context function
+	router: React.PropTypes.func.isRequired
+};
 
 module.exports = SearchGithub;

@@ -3,7 +3,7 @@ import { GITHUB_API_USER_BASE } from '../config/constants';
 
 // GET /users/:username/repos
 function getRepos(username) {
-	return axios.get(GITHUB_API_USER_BASE + username + '/repos');
+	return axios.get(`${GITHUB_API_USER_BASE}${username}/repos`);
 }
 
 // GET /users/:username
@@ -12,16 +12,16 @@ function getUserInfo(username) {
 }
 
 const helpers = {
-	getGithubInfo: function(username) {
+	getGithubInfo(username){
 		return axios.all([ getRepos(username), getUserInfo(username) ])
-			.then(function(arr) {
+			.then((arr) => {
 				return {
 					repos: arr[0].data, // getRepos res
 					bio: arr[1].data // getUserInfo res
-				}
+				};
 			});
 	}
 };
 
 // Export promise objects
-module.exports = helpers;
+export default helpers;

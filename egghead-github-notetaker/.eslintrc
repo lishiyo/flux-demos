@@ -1,0 +1,23 @@
+{
+  "parser": "babel-eslint",
+  "ecmaFeatures": {
+    "jsx": true,
+    "modules": true
+  },
+  "env": {
+    "browser": true,
+    "node": true // in CommonJS
+  },
+  "rules": {
+    "quotes": [2, "single"],
+    "strict": [2, "never"],
+    "react/jsx-uses-react": 2,
+    "react/jsx-uses-vars": 2,
+    "react/react-in-jsx-scope": 2,
+    "react/wrap-multilines": 1,
+    "no-trailing-spaces": [2, { "skipBlankLines": true }]
+  },
+  "plugins": [
+    "react"
+  ]
+}

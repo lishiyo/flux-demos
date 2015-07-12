@@ -1,5 +1,5 @@
 import React from 'react';
-import Home from './Home';
+// import Home from './Home';
 import { RouteHandler } from 'react-router';
 import SearchGithub from './SearchGithub';
 
@@ -13,12 +13,12 @@ class Main extends React.Component {
                     </div>
                 </nav>
                 <div className="container">
-                    { /* ...this.props passes in all props } */ }
+                    { /* ...this.props <- app.js Router state -> continue to pass down all props } */ }
                     <RouteHandler {...this.props}/>
                 </div>
             </div>
-        )
-    }ew
+        );
+    }
 }
 
 
