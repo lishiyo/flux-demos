@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title> Chirper </title>
+    <link rel='stylesheet' href='/lib/skeleton/css/normalize.css' />
+    <link rel='stylesheet' href='/lib/skeleton/css/skeleton.css' />
+    <link rel='stylesheet' href='/style.css' />
+  </head>
+  <body>
+    <div class='container' id='app'></div>
+    <!-- get current user on client side; no escaping to html-entities -->
+    <script> let USER = <%- JSON.stringify(user) %> </script>
+    <script src='/main.js'></script>
+  </body>
+</html>
