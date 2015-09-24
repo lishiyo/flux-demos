@@ -4,63 +4,69 @@ import dispatcher from '../dispatcher';
 
 const CHANGE_EVENT = 'CHANGE';
 
-let storeMethods = {
-    init: function() {},
-    set: function(arr) {
+let baseMethods = {
+    init() {},
+    getState() { 
+        return this.all(); 
+    },
+    set (arr) {
         let currIds = this._data.map(m => m.cid);
         arr.filter(item => {
             return currIds.indexOf(item.cid) === -1;
         }).forEach(this.add.bind(this));
 
-        console.log("data set", this._data);
+        console.log("data reset ++ ", this._data);
     },
-    add: function(item) {
+    add (item) {
+        console.log("store add ++ ", item);
         this._data.push(item);
     },
-    all: function() {
+    all () {
         return this._data;
     },
-    get: function(id) {
+    get (id) {
         return find(this._data, (item) => {
             return item.cid === id;
         });
     },
-    addChangeListener: function (fn) {
+    addChangeListener (fn) {
         this.on(CHANGE_EVENT, fn); // EventEmitter
     },
-    removeChangeListener: function (fn) {
+    removeChangeListener (fn) {
         this.removeListener(CHANGE_EVENT, fn);
     },
-    emitChange: function() {
+    emitChange () {
         this.emit(CHANGE_EVENT);
     },
-    bind: function(actionType, actionFn) { // bind to actions
+    bind (actionType, actionFn) { // create actions map
         // { actionType: [ actionFn, actionFn... ] }
         if (this.actions[actionType]) {
             this.actions[actionType].push(actionFn);
         } else {
             this.actions[actionType] = [actionFn];
         }
-    }
+    },  
 };
 
-function extend(methods) {
+function createStore(methods) {
     let store = {
         _data: [],
         actions: {}
     };
 
     // Compose store
-    // EventEmitter's prototype functions, default storeMethods, and custom methods
-    assign(store, EventEmitter.prototype, storeMethods, methods);
+    // EventEmitter's prototype functions, 
+    // base storeMethods
+    // custom methods
+    assign(store, EventEmitter.prototype, baseMethods, methods);
 
     // populate store.actions hash with action handlers
     store.init();
 
-    // register a function
+    // register a callback to dispatch events
     dispatcher.register(action => {
         // if my store responds to this ACTION_TYPE 
-        // trigger all action handlers
+        // trigger all action handlers for that action type
         if (store.actions[action.actionType]) {
             store.actions[action.actionType].forEach(fn => {
                 fn.call(store, action.data);
@@ -71,4 +77,5 @@ function extend(methods) {
     return store;
 }
 
-export default extend;
+export default createStore;
+

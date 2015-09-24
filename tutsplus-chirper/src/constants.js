@@ -1,5 +1,6 @@
 'use strict';
 
+// name : actionType
 export default {
     CHIRP: 'CHIRP', // client sends chirp to server
     CHIRPED: 'CHIRPED', // chirp has been saved - server to client

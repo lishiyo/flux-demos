@@ -7,9 +7,9 @@ import constants from '../constants';
 // exports.getChirps = function(data) 
 /**
 Generate all actions
-    exports.getChirps = function(data) {
-        dispatcher.dispatcher({
-            actionType: GET_CHIRPS,
+    exports.chirp = function(data) {
+        dispatcher.dispatch({
+            actionType: CHIRP,
             data: data
         })
     }

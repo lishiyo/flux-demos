@@ -1,4 +1,5 @@
 import React from 'react';
+import { RouteHandler } from 'react-router';
 
 class App extends React.Component {
   render() {
@@ -12,7 +13,7 @@ class App extends React.Component {
             Navigation
           </div>
           <div className='nine columns'>
-            Nested Content
+            <RouteHandler />
           </div>
         </div>
       </div>

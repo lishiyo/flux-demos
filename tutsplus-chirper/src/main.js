@@ -1,13 +1,17 @@
 import React from 'react';
 import ReactRouter, { Route } from 'react-router';
 
-import API from './api';
+import API from './API/index';
 import ChirpStore from './stores/chirps';
 
 import App from './components/App';
+import Home from './components/Home';
 
 const routes = (
-    <Route handler={ App }> </Route>
+    // App route will run for all routes
+    <Route handler={ App }>
+        <Route name='home' path='/' handler={ Home } />
+    </Route>
 );
 
 API.fetchChirps();
