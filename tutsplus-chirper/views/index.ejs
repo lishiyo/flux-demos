@@ -9,7 +9,7 @@
   <body>
     <div class='container' id='app'></div>
     <!-- get current user on client side; no escaping to html-entities -->
-    <script> let USER = <%- JSON.stringify(user) %> </script>
+    <script> var USER = <%- JSON.stringify(user) %> </script>
     <script src='/main.js'></script>
   </body>
 </html>

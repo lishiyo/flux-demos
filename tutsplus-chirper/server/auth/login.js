@@ -10,7 +10,7 @@ const db = new LocallyDB('./.data');
 // Collections
 const users = db.collection('users'); //create collection
 
-// ========= STRATEGIES =========
+// ================== STRATEGIES ==================
 
 passport.use(new LocalStrategy( (username, password, onDone) => {
     let user = users.where({ 
