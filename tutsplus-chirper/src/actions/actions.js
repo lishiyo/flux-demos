@@ -3,7 +3,7 @@
 import dispatcher from '../dispatcher';
 import constants from '../constants';
 
-// generate actions
+// generate all actions
 // exports.getChirps = function(data) 
 /**
 Generate all actions
@@ -23,7 +23,7 @@ Object.keys(constants).forEach(key => {
 
     exports[funcName] = function (data) {
         dispatcher.dispatch({
-            actionType: constants[key],
+            actionType: constants[key], // CHIRP
             data: data
         });
     }

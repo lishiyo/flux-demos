@@ -25,7 +25,7 @@ export default {
 // return promise with json response
 function get(url) {
     // Fetch API returns a promise
-    // without credentials param, the API cannot send cookies and would not know we're a logged-in user -> login.required would return the login-page
+    // without credentials param, fetch API cannot send cookies and would not know we're a logged-in user 
     return fetch(url, {
         credentials: 'same-origin'
     }).then(res => {

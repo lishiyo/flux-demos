@@ -1,14 +1,7 @@
 import React from 'react';
 
-// Dumb Component
-
+// Dumb Component - render a value
 class ChirpInputView extends React.Component {
-  static propTypes = {
-    value: React.PropTypes.string
-    onChange: React.PropTypes.func.isRequired,
-    onClick: React.PropTypes.func.isRequired,
-  };
-
   constructor(props) {
     super(props);
   }
@@ -21,18 +14,24 @@ class ChirpInputView extends React.Component {
             type='text'
             placeholder='Say Something'
             value={this.props.value}
-            onChange={this.props.onChange} />
+            onChange={this.props.changeHandler} />
         </div>
         <div className='three columns'>
           <button 
             className='u-full-width button-primary'
-            onClick={this.props.onClick}>
+            onClick={this.props.clickHandler} >
               Chirp
           </button>
         </div>
       </div>
     );
   }
+}
+
+ChirpInputView.propTypes = {
+  value: React.PropTypes.string,
+  changeHandler: React.PropTypes.func.isRequired,
+  clickHandler: React.PropTypes.func.isRequired,
 }
 
 export default ChirpInputView;

@@ -6,8 +6,8 @@ const CHANGE_EVENT = 'CHANGE';
 
 let baseMethods = {
     init() {},
-    getState() { 
-        return this.all(); 
+    getState () { // current state
+        return { chirps: this.all() }; 
     },
     set (arr) {
         let currIds = this._data.map(m => m.cid);
@@ -15,7 +15,7 @@ let baseMethods = {
             return currIds.indexOf(item.cid) === -1;
         }).forEach(this.add.bind(this));
 
-        console.log("data reset ++ ", this._data);
+        console.log("data set! ++ ", this._data);
     },
     add (item) {
         console.log("store add ++ ", item);
@@ -38,7 +38,7 @@ let baseMethods = {
     emitChange () {
         this.emit(CHANGE_EVENT);
     },
-    bind (actionType, actionFn) { // create actions map
+    bindAction (actionType, actionFn) { // create actions hash
         // { actionType: [ actionFn, actionFn... ] }
         if (this.actions[actionType]) {
             this.actions[actionType].push(actionFn);
@@ -54,10 +54,10 @@ function createStore(methods) {
         actions: {}
     };
 
-    // Compose store
-    // EventEmitter's prototype functions, 
-    // base storeMethods
-    // custom methods
+    // Compose store out of: 
+    // - EventEmitter's prototype functions, 
+    // - base store methods
+    // - custom methods
     assign(store, EventEmitter.prototype, baseMethods, methods);
 
     // populate store.actions hash with action handlers

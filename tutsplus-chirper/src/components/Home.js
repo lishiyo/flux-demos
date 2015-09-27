@@ -2,7 +2,7 @@ import React from 'react';
 import actions from '../actions/actions';
 
 // Stores
-import ChirpStore from '../stores/chirps';
+import ChirpStore from '../stores/ChirpStore';
 
 // Sub-components
 import ChirpInput from './ChirpInput';
@@ -12,8 +12,8 @@ class Home extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = ChirpStore.getState(); 
-
+    this.state = ChirpStore.getState();
+    console.log("Home state is", ChirpStore.getState());
     this.saveChirp = this.saveChirp.bind(this);
   }
   saveChirp(text) {
